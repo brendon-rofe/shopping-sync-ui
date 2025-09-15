@@ -4,10 +4,32 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Login attempt:", { email, password });
-    // TODO: replace with API call
+
+    try {
+      const res = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        alert(`Login failed: ${msg || res.statusText}`);
+        return;
+      }
+
+      const data = await res.json();
+      alert("✅ Login successful!");
+
+      if (data.accessToken) {
+        localStorage.setItem("token", data.accessToken);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("⚠️ Network error. Please try again.");
+    }
   }
 
   return (
