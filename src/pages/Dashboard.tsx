@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 type Props = {
   avatarUrl?: string;
   primaryColor?: string; // e.g. "#137fec"
@@ -121,7 +123,6 @@ function Card({
   imgUrl,
   ctaIcon,
   ctaLabel,
-  onClick,
 }: {
   title: string;
   description: string;
@@ -130,6 +131,9 @@ function Card({
   ctaLabel: string;
   onClick?: () => void;
 }) {
+
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col overflow-hidden rounded-lg bg-[#1a1e24] shadow-lg transition-shadow duration-300 hover:shadow-[0_0_0_2px_var(--primary-color)]/10">
       <div
@@ -142,7 +146,7 @@ function Card({
           <p className="mt-2 text-sm text-[#9dabb9]">{description}</p>
         </div>
         <button
-          onClick={onClick}
+          onClick={() => navigate("/items")}
           className="mt-6 inline-flex items-center justify-center gap-2 h-10 px-4 rounded-md bg-[var(--primary-color)] text-white text-sm font-bold hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] focus:ring-offset-[#1a1e24]"
         >
           <span className="material-symbols-outlined">{ctaIcon}</span>
